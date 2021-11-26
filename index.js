@@ -30,6 +30,9 @@ const handleclicks = () => {
     $("#hash").click(() => {
         appendCharOrNumber("#",1);
     })
+    $("#space").click(() => {
+        appendCharOrNumber(" ", 1);
+    })
     // end
 
     // click event to clear the display
