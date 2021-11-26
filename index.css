@@ -1,3 +1,6 @@
+
+
+/* css file used for external stylesheet*/
 .mainDiv{
     width: 400px;
     /* height: 10rem; */
@@ -12,13 +15,9 @@
 .col-4{
     padding: 1%;
 }
-.buttonStyle{
+.buttonStyle,
+.buttonStyle1 {
 height: 65px;
 margin-top: 8px !important;
 width: 100%;
-}
-.buttonStyle1 {
-    height: 65px;
-    margin-top: 8px !important;
-    width: 100%;
 }

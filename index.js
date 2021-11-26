@@ -1,136 +1,127 @@
 var clicks = 0;
-var timer, timeout = 400; // time between each click
+var timer, timeout = 1000; // time between each click
+let flag =0;
 
-var clicksCount = function(charToBeAdded){
+
+
+// this function is used to append a char or a number in the result
+// this function takes two arguments one is char or number which is going to be append and 
+// second is number of clicks user has done in a short span so that we can append character accordingly
+var appendCharOrNumber = function (charToBeAdded, clicks) {
     let data = $("#op").text();
+    if (clicks != 1)
+        data = data.slice(0, data.length - 1);
+
     data += charToBeAdded;
     $("#op").text(data);
 }
+// end
 
-
-const handleclicks = ()=>{
-    $("#star").click(()=>{
-        clicksCount("*");
+// handle click function will handle all the clicks and events
+const handleclicks = () => {
+    // click event on astrick zero and hash button
+    $("#star").click(() => {
+        appendCharOrNumber("*",1);
     })
+
     $("#0").click(() => {
-        clicksCount("0");
+        appendCharOrNumber("0",1);
     })
     $("#hash").click(() => {
-        clicksCount("#");
+        appendCharOrNumber("#",1);
     })
+    // end
+
+    // click event to clear the display
     $("#clear").click(() => {
         $("#op").text("");
     })
+    // end
 
-    $(".buttonStyle").unbind().click(function(e){
-        clearTimeout(timer);
-        clicks++;
-        var evt = e;
-        let id = this.id;
-        timer = setTimeout(function () {
-            switch (id) {
+    // handles all the clicks happens on other buttons
+    //  I have used jqeury event.detail which provides the number of clicks happend instantly on a button
+    // for making it more dynamic I have attached click on a class (This class is given to all the buttons having multiple characters) then 
+    //I have taken the id of the eliment which have been clicked
+    $(".buttonStyle").unbind().click(function (evt) {
+        let clicks = evt.detail;
+        if(!flag){
+            switch (this.id) {
                 case "1":
-                    if (clicks == 1) clicksCount(".");
-                    if (clicks == 2) clicksCount(",");
-                    if (clicks == 3) clicksCount("!");
+                    if (clicks == 1) appendCharOrNumber(".", clicks);
+                    if (clicks == 2) appendCharOrNumber(",", clicks);
+                    if (clicks == 3) appendCharOrNumber("!", clicks);
 
                     break;
                 case "2":
-                    if (clicks == 1) clicksCount("a");
-                    if (clicks == 2) clicksCount("b");
-                    if (clicks == 3) clicksCount("c");
+                    if (clicks == 1) appendCharOrNumber("a", clicks);
+                    if (clicks == 2) appendCharOrNumber("b", clicks);
+                    if (clicks == 3) appendCharOrNumber("c", clicks);
 
                     break;
                 case "3":
-                    if (clicks == 1) clicksCount("d");
-                    if (clicks == 2) clicksCount("e");
-                    if (clicks == 3) clicksCount("f");
+                    if (clicks == 1) appendCharOrNumber("d", clicks);
+                    if (clicks == 2) appendCharOrNumber("e", clicks);
+                    if (clicks == 3) appendCharOrNumber("f", clicks);
                     break;
                 case "4":
-                    if (clicks == 1) clicksCount("g");
-                    if (clicks == 2) clicksCount("h");
-                    if (clicks == 3) clicksCount("i");
+                    if (clicks == 1) appendCharOrNumber("g", clicks);
+                    if (clicks == 2) appendCharOrNumber("h", clicks);
+                    if (clicks == 3) appendCharOrNumber("i", clicks);
                     break;
                 case "5":
-                    if (clicks == 1) clicksCount("j");
-                    if (clicks == 2) clicksCount("k");
-                    if (clicks == 3) clicksCount("l");
+                    if (clicks == 1) appendCharOrNumber("j", clicks);
+                    if (clicks == 2) appendCharOrNumber("k", clicks);
+                    if (clicks == 3) appendCharOrNumber("l", clicks);
                     break;
                 case "6":
-                    if (clicks == 1) clicksCount("m");
-                    if (clicks == 2) clicksCount("n");
-                    if (clicks == 3) clicksCount("o");
+                    if (clicks == 1) appendCharOrNumber("m", clicks);
+                    if (clicks == 2) appendCharOrNumber("n", clicks);
+                    if (clicks == 3) appendCharOrNumber("o", clicks);
                     break;
                 case "7":
-                    if (clicks == 1) clicksCount("p");
-                    if (clicks == 2) clicksCount("q");
-                    if (clicks == 3) clicksCount("r");
-                    if (clicks == 4) clicksCount("s");
+                    if (clicks == 1) appendCharOrNumber("p", clicks);
+                    if (clicks == 2) appendCharOrNumber("q", clicks);
+                    if (clicks == 3) appendCharOrNumber("r", clicks);
+                    if (clicks == 4) appendCharOrNumber("s", clicks);
                     break;
                 case "8":
-                    if (clicks == 1) clicksCount("t");
-                    if (clicks == 2) clicksCount("u");
-                    if (clicks == 3) clicksCount("v");
+                    if (clicks == 1) appendCharOrNumber("t", clicks);
+                    if (clicks == 2) appendCharOrNumber("u", clicks);
+                    if (clicks == 3) appendCharOrNumber("v", clicks);
                     break;
                 case "9":
-                    if (clicks == 1) clicksCount("w");
-                    if (clicks == 2) clicksCount("x");
-                    if (clicks == 3) clicksCount("y");
-                    if (clicks == 4) clicksCount("z");
+                    if (clicks == 1) appendCharOrNumber("w", clicks);
+                    if (clicks == 2) appendCharOrNumber("x", clicks);
+                    if (clicks == 3) appendCharOrNumber("y", clicks);
+                    if (clicks == 4) appendCharOrNumber("z", clicks);
                     break;
             }
-            clicks = 0;
-        }, timeout);
-    }).on("mouseup",function(){
-        clearTimeout(timer)
+        }
+        else{
+            flag =0;
+        }
+      
     })
 
     var timerForLongPress;
     $('.buttonStyle').on("mousedown", function () {
         let id = this.id
         timerForLongPress = setTimeout(function () {
-            clicksCount(`${id}`)
-            clicks=-1;
-        },1000);
+            appendCharOrNumber(`${id}`,1)
+            flag =1;
+        },800);
 
     }).on("mouseup", function () {
         clearTimeout(timerForLongPress);
         clearTimeout(timer);
     });
 }
+//handle clicks ends
 
 
-$(document).ready(()=>{
+// document ready is a inbuilt jquery function which is automatically fired when a script runs on the browser
+
+$(document).ready(() => {
     handleclicks();
 })
-
-
-
-// $.event.special.tripleclick = {
-
-//     setup: function (data, namespaces) {
-//         var elem = this, $elem = jQuery(elem);
-//         $elem.bind('click', jQuery.event.special.tripleclick.handler);
-//     },
-
-//     teardown: function (namespaces) {
-//         var elem = this, $elem = jQuery(elem);
-//         $elem.unbind('click', jQuery.event.special.tripleclick.handler)
-//     },
-
-//     handler: function (event) {
-//         var elem = this, $elem = jQuery(elem), clicks = $elem.data('clicks') || 0;
-//         clicks += 1;
-//         if (clicks === 3) {
-//             clicks = 0;
-
-//             // set event type to "tripleclick"
-//             event.type = "tripleclick";
-
-//             // let jQuery handle the triggering of "tripleclick" event handlers
-//             jQuery.event.handle.apply(this, arguments)
-//         }
-//         $elem.data('clicks', clicks);
-//     }
-
-// };
+// ready ends
